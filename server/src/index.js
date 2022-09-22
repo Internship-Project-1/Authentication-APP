@@ -1,10 +1,9 @@
 const express = require("express");
 const jwt = require("express-jwt");
 const bodyParser = require("body-parser");
-const passport = require("passport");
 const mongoose = require("./mongoose");
 
-const Users = require("./api/models/user.model");
+const userRoutes = require("./api/routes/user.route");
 
 // Import ENV Vars
 require("dotenv").config({
@@ -16,15 +15,16 @@ const app = express();
 // open mongoose connection
 mongoose.connect();
 
-// Testing
-// Users.create({ name: "Test", password: "123" });
-
 // parse body params and attache them to req.body
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use("/user", userRoutes);
+
 // listen to requests
-app.listen(5000, () => `server started on port 5000 (${process.env.NODE_ENV})`);
+app.listen(5000, () =>
+  console.log(`server started on port 5000 (${process.env.NODE_ENV})`)
+);
 
 /**
  * Exports express
