@@ -91,3 +91,29 @@ exports.userLogin = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.fetchDetails = async (req, res, next) => {
+  try {
+    const _id = req.body._id
+    // Check account doesnt exist
+    let registeredUser = await Users.findOne({ _id }).exec();
+
+    if (!registeredUser) {
+      return res.status(400).json({
+        message: "User not found",
+      });
+    }
+
+    
+      return res.status(200).json({
+        user: registeredUser,
+        message:
+          "User details found",
+      })
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Unable to fetch the user details",
+    });
+  }
+};
