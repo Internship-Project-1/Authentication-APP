@@ -20,13 +20,12 @@ router.route("/login").post(controller.userLogin);
  * @api {post} user/fetch details
  * @apiDescription Fetch user details
  */
- router.route("/fetchdetails").post(controller.updateUser);
-
+router.route("/update-details").put(controller.updateUser);
 
 /**
  * @api {post} user/fetch details
  * @apiDescription Fetch user details
  */
- router.route("/fetchdetails").get(controller.fetchDetails);
+router.route("/fetch-details/:userId").get(controller.fetchDetails);
 
 module.exports = router;

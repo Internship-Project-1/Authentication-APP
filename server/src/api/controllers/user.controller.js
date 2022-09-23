@@ -94,7 +94,7 @@ exports.userLogin = async (req, res, next) => {
 
 exports.fetchDetails = async (req, res, next) => {
   try {
-    const _id = req.body._id
+    const _id = req.params.userId;
     // Check account doesnt exist
     let registeredUser = await Users.findOne({ _id }).exec();
 
@@ -104,16 +104,41 @@ exports.fetchDetails = async (req, res, next) => {
       });
     }
 
-    
-      return res.status(200).json({
-        user: registeredUser,
-        message:
-          "User details found",
-      })
+    return res.status(200).json({
+      user: registeredUser,
+      message: "User details found",
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
       message: "Unable to fetch the user details",
+    });
+  }
+};
+
+exports.updateUser = async (req, res, next) => {
+  try {
+    const { _id } = req.body;
+
+    const query = { _id: mongoose.Types.ObjectId(_id) };
+
+    await Users.findOneAndUpdate(
+      query,
+      { ...req.body },
+      { new: true },
+      (err, doc) => {
+        if (err) {
+          res.status(500);
+          return res.json({ msg: `Unable to Update User: ${err}` });
+        }
+
+        return res.status(200).json(doc);
+      }
+    );
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Failed to update user",
     });
   }
 };
