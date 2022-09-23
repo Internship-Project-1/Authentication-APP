@@ -6,7 +6,7 @@ import './panel.css'
 export default () => (
   <App routes={Routes}>
     <Panel resizable left cover>
-
+      
     </Panel>
     <View url="/" main>
        

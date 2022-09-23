@@ -1,6 +1,7 @@
 import React from 'react';
 import { App, Panel, View, Page, Block, Navbar, Row, Col, Button, Link, NavLeft, NavRight, NavTitle } from 'framework7-react';
 
+
 export default () => (
     <Page id="panel-page">
         <Navbar>
@@ -17,7 +18,7 @@ export default () => (
         <div class="IntroImage"><span class="material-icons">
           lock
         </span></div>
-        <div class="IntroLoginBtn"><a class="button button-round button-fill">Login</a></div>
+        <div class="IntroLoginBtn"><a href="/login/" class="button button-round button-fill">Login</a></div>
         <div class="IntroSignupBtn">Not registered yet ? <a href="/signup/">Signup</a> now for free.</div>
         <div class="IntroCopyright">Copyright 2022 Group30. All Rights Reserved.</div>
       </Page>

@@ -32,17 +32,17 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
-.navbar-bg
-{
+.navbar-bg {
   background-color: transparent;
 }
 
-.navbar-bg::before{
+.navbar-bg::before {
   background: none !important;
 }
 
@@ -63,11 +63,10 @@
   text-align: center;
 }
 
-.IntroImage span
-{
+.IntroImage span {
   font-size: 150pt;
-    margin-top: 50px;
-    margin-bottom: 50px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 .IntroTitle {
@@ -140,40 +139,70 @@
   line-height: 25px;
 }
 
-  .MainBtn .material-icons {
-      font-size: 35pt;
-      margin-top: 16px;
-  }
-.MenuItems ul
-{
-  list-style:none;
-  width:100%;
-  padding:0px;
-  margin:0px;
+.MainBtn .material-icons {
+  font-size: 35pt;
+  margin-top: 16px;
 }
 
-  .MenuItems ul li {
-      width: 100%;
-      display:block !important;
-  }
-
-  .MenuItems ul li a {
-      color:dimgray;
-      padding:15px;
-      border-bottom:solid 1px lightgrey;
-      display:block;
-  }
-.MainMenuLogo
-{
-  height:200px;
-  position:relative;
+.MenuItems ul {
+  list-style: none;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
 }
-.MainMenuLogo span{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  font-size:30pt;
-  color:black;
-  font-weight:bold;
+
+.MenuItems ul li {
+  width: 100%;
+  display: block !important;
+}
+
+.MenuItems ul li a {
+  color: dimgray;
+  padding: 15px;
+  border-bottom: solid 1px lightgrey;
+  display: block;
+}
+
+.MainMenuLogo {
+  height: 200px;
+  position: relative;
+}
+
+.MainMenuLogo span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 30pt;
+  color: black;
+  font-weight: bold;
+}
+
+.CenterScreen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.CenterScreen .material-icons {
+  color: mediumseagreen;
+  font-size: 100pt;
+}
+
+.ActivateScreen {
+  display: block;
+  margin-top: 25px;
+  font-size: 25px;
+}
+
+.LoginIcon {
+  text-align: center;
+  color: black;
+}
+
+.LoginIcon .material-icons {
+  font-size: 100pt;
+  margin-top: 55px;
 }
