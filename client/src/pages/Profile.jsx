@@ -5,14 +5,27 @@ import { f7ready } from 'framework7-react';
 const DoRegister = (e) => {
     e.preventDefault();
     const formData = f7.form.convertToData(e.target)
-    f7.dialog.alert(JSON.stringify(formData), "Authentication App")
+    if (formData.confirmPassword == formData.password) {
+        // /update-details
+        formData.userId = 0;// Edit This with the userid wheather it comes from cookie or localstorage
+        const opts = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData)
+        }
+        fetch("http://localhost:5000/update-details", opts).then((response) => { console.log(JSON.stringify(response.json())) })
+    }
+    else {
+        f7.dialog.alert("Passwlord does not match the Confirm Password", "Authentication App")
+        //f7.dialog.alert(JSON.stringify(formData), "Authentication App")
+    }
 }
 
 export default () => {
     useEffect(() => {
         f7ready((f7) => {
-            //f7.dialog.alert('Component mounted');
-            //Setname("test")
+            const userID = 0;// Edit This with the userid wheather it comes from cookie or localstorage
+            fetch("http://localhost:5000/fetch-details/" + userID).then((response) => { console.log(JSON.stringify(response.json())) })
         })
     }, []);
     const [name, Setname] = useState();
