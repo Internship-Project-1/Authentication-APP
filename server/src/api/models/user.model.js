@@ -94,6 +94,8 @@ userSchema.statics = {
     return user.updateOne({ password: newPassword });
   },
 
+  // async generateActivationCode()
+
   async generateAccessToken(loggedUser) {
     const { _id } = loggedUser;
     console.log(loggedUser, "UserId");

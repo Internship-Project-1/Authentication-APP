@@ -1,5 +1,7 @@
 const bcrypt = require("bcryptjs");
 const Users = require("../models/user.model");
+const crypto = require("crypto");
+const mailer = require("../service/mailer.service");
 
 exports.userRegister = async (req, res, next) => {
   try {
@@ -31,17 +33,32 @@ exports.userRegister = async (req, res, next) => {
       isActivated: false,
     });
 
-    await newUser.save(async (err, user) => {
-      if (err) {
-        return res.status(400).json({
-          message: "error " + err,
-        });
-      }
+    // Email Logic
+    crypto.randomBytes(10, async (err, buf) => {
+      newUser.activationCode = Date.now() + buf.toString("hex");
+      const link = `${process.env.BASE_URL}/activate?token=${userDetails.activationCode}`;
 
-      return res.status(200).json({
-        user,
-        message:
-          "User registration successful. Please check your email to verify your account",
+      mailer({
+        to: userDetails.email,
+        text: `Please click ${link} to activate your account`,
+        html:
+          'Please click <a href="' +
+          link +
+          '"> here </a> to activate your account.',
+      });
+
+      await newUser.save(async (err, user) => {
+        if (err) {
+          return res.status(400).json({
+            message: "error " + err,
+          });
+        }
+
+        return res.status(200).json({
+          user,
+          message:
+            "User registration successful. Please check your email to verify your account",
+        });
       });
     });
   } catch (error) {
@@ -139,6 +156,52 @@ exports.updateUser = async (req, res, next) => {
     console.error(error);
     return res.status(500).json({
       message: "Failed to update user",
+    });
+  }
+};
+
+// Email Activation
+exports.activateAccount = async (req, res, next) => {
+  try {
+    Users.findOne(
+      {
+        activationCode: req.query.token,
+      },
+      (err, user) => {
+        if (err) {
+          res.status(500);
+          return res.json({
+            message: `Unable to find user to activate. Error: ${err}`,
+          });
+        }
+        if (!user) {
+          return res.json({
+            title: "Failed to Activate",
+            content: "Your activation link is invalid, please register again.",
+          });
+        }
+
+        user.isActivated = true;
+        user.save((err, user) => {
+          if (err) {
+            res.status(500);
+            return res.json({
+              message: `Unable to save user after activation. Error: ${err}`,
+            });
+          }
+
+          // activation success
+          res.json({
+            title: "Successfully Activated!",
+            content: user.name + `may login now.`,
+          });
+        });
+      }
+    );
+  } catch (err) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Failed to activate account",
     });
   }
 };
