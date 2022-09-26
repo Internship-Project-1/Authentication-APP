@@ -36,7 +36,7 @@ exports.userRegister = async (req, res, next) => {
     // Email Logic
     crypto.randomBytes(10, async (err, buf) => {
       newUser.activationCode = Date.now() + buf.toString("hex");
-      const link = `${process.env.BASE_URL}/activate?token=${userDetails.activationCode}`;
+      const link = `${process.env.BASE_URL}/activate?token=${newUser.activationCode}`;
 
       mailer({
         to: userDetails.email,
