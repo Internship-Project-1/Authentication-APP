@@ -1,10 +1,22 @@
 import React from 'react';
-import { Page, Navbar, Link, NavLeft, NavRight, NavTitle, List, ListInput, Button, Block, Col, Row,f7 } from 'framework7-react';
+import { Page, Navbar, Link, NavLeft, NavRight, NavTitle, List, ListInput, Button, Block, Col, Row, f7 } from 'framework7-react';
 
 const DoRegister = (e) => {
     e.preventDefault();
     const formData = f7.form.convertToData(e.target)
-    f7.dialog.alert(JSON.stringify(formData),"Authentication App")
+    if (formData.confirmPassword == formData.password) {
+        // /register 
+        const opts = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData)
+        }
+        fetch("http://localhost:5000/register", opts).then((response) => { console.log(JSON.stringify(response.json())) })
+    }
+    else {
+        f7.dialog.alert("Passwlord does not match the Confirm Password", "Authentication App")
+        //f7.dialog.alert(JSON.stringify(formData), "Authentication App")
+    }
 }
 
 export default () => (
@@ -24,7 +36,7 @@ export default () => (
             <ListInput
                 outline
                 label="Name"
-                name="Name"
+                name="name"
                 floatingLabel
                 type="text"
                 placeholder="Name"
@@ -35,7 +47,7 @@ export default () => (
             <ListInput
                 outline
                 label="Username"
-                name="Username"
+                name="username"
                 floatingLabel
                 type="text"
                 placeholder="Username"
@@ -46,7 +58,7 @@ export default () => (
             <ListInput
                 outline
                 label="Email"
-                name="Email"
+                name="email"
                 floatingLabel
                 type="email"
                 placeholder="Email"
@@ -57,7 +69,7 @@ export default () => (
             <ListInput
                 outline
                 label="Mobile"
-                name="Mobile"
+                name="mobileNumber"
                 floatingLabel
                 type="number"
                 placeholder="Mobile"
@@ -67,7 +79,7 @@ export default () => (
             <ListInput
                 outline
                 label="Image URL"
-                name="ImageURL"
+                name="userImage"
                 floatingLabel
                 type="text"
                 placeholder="Image URL"
@@ -77,7 +89,7 @@ export default () => (
             <ListInput
                 outline
                 label="Password"
-                name="Password"
+                name="password"
                 floatingLabel
                 type="password"
                 placeholder="Password"
@@ -87,7 +99,7 @@ export default () => (
             <ListInput
                 outline
                 label="Confirm Password"
-                name="ConfirmPassword"
+                name="confirmPassword"
                 floatingLabel
                 type="password"
                 placeholder="Confirm Password"
