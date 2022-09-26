@@ -1,6 +1,7 @@
 const express = require("express");
 const jwt = require("express-jwt");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const mongoose = require("./mongoose");
 
 const userRoutes = require("./api/routes/user.route");
@@ -14,6 +15,8 @@ const app = express();
 
 // open mongoose connection
 mongoose.connect();
+
+app.use(cors());
 
 // parse body params and attache them to req.body
 app.use(bodyParser.json());
