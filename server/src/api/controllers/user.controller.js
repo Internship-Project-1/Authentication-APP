@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const Users = require("../models/user.model");
 const crypto = require("crypto");
 const mailer = require("../service/mailer.service");
+const mongoose = require("mongoose");
 
 exports.userRegister = async (req, res, next) => {
   try {
@@ -139,19 +140,17 @@ exports.updateUser = async (req, res, next) => {
 
     const query = { _id: mongoose.Types.ObjectId(_id) };
 
-    await Users.findOneAndUpdate(
+    const user = await Users.findOneAndUpdate(
       query,
       { ...req.body },
-      { new: true },
-      (err, doc) => {
-        if (err) {
-          res.status(500);
-          return res.json({ msg: `Unable to Update User: ${err}` });
-        }
+      { new: true }
+    ).lean();
 
-        return res.status(200).json(doc);
-      }
-    );
+    if (!user) {
+      return res.status(500).json({ msg: `Unable to Update User` });
+    }
+
+    return res.status(200).json(user);
   } catch (error) {
     console.error(error);
     return res.status(500).json({
