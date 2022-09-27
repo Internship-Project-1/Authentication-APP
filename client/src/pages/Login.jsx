@@ -8,7 +8,7 @@ export default ({ f7router }) => {
     const DoRegister = (e) => {
         e.preventDefault();
         const formData = f7.form.convertToData(e.target)
-        f7.dialog.alert(JSON.stringify(formData), "Authentication App")
+        //f7.dialog.alert(JSON.stringify(formData), "Authentication App")
         const token = captchaRef.current.getValue();
         formData.token = token;
         const opts = {
@@ -16,12 +16,13 @@ export default ({ f7router }) => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData)
         }
-        fetch("http://localhost:5000/login", opts).then((response) => { 
-            const loginData = response.json();
-            //Store the login userId somewhere in cookie or local storage
-            f7router.navigate('/profile/');  
-            //console.log(JSON.stringify(response.json())) 
-        })
+        fetch("http://localhost:5000/user/login", opts).then(response => response.json()).then(data=> {
+            f7.dialog.alert(data.message, "Authentication App")
+            if (data.token) {
+                localStorage.setItem("Auth",data.user._id);
+                f7router.navigate('/profile/');
+            }                
+        });
         captchaRef.current.reset();
         //send data to server
         //message authenticated
@@ -52,7 +53,7 @@ export default ({ f7router }) => {
             <ListInput
                 outline
                 label="Username"
-                name="username"
+                name="email"
                 floatingLabel
                 type="text"
                 placeholder="Username"

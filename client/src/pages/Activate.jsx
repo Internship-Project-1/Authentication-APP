@@ -1,13 +1,11 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { App, Panel, View, Page, Block, Navbar, Row, Col, Button, Link, NavLeft, NavRight, NavTitle } from 'framework7-react';
 import { f7ready } from 'framework7-react';
 
 export default () => {
     useEffect(() => {
         f7ready((f7) => {
-            //f7.dialog.alert('Component mounted');
-            //Setname("test")
-            // Send Account Verification Server Call
+            
         })
     }, []);
     return (

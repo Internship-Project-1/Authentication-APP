@@ -1,26 +1,32 @@
 import React from 'react';
 import { Page, Navbar, Link, NavLeft, NavRight, NavTitle, List, ListInput, Button, Block, Col, Row, f7 } from 'framework7-react';
 
-const DoRegister = (e) => {
-    e.preventDefault();
-    const formData = f7.form.convertToData(e.target)
-    if (formData.confirmPassword == formData.password) {
-        // /register 
-        const opts = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formData)
-        }
-        fetch("http://localhost:5000/register", opts).then((response) => { console.log(JSON.stringify(response.json())) })
-    }
-    else {
-        f7.dialog.alert("Passwlord does not match the Confirm Password", "Authentication App")
-        //f7.dialog.alert(JSON.stringify(formData), "Authentication App")
-    }
-}
 
-export default () => (
-    <Page name="signup">
+
+export default ({ f7router }) => {
+    const DoRegister = (e) => {
+        e.preventDefault();
+        const formData = f7.form.convertToData(e.target)
+        if (formData.confirmPassword === formData.password) {
+            // /register 
+            const opts = {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            }
+            fetch("http://localhost:5000/user/register", opts).then(response => response.json()).then(data=> {
+                f7.dialog.alert(data.message, "Authentication App")
+                if (data.user) {
+                    f7router.navigate('/login/');
+                }                
+            });
+        }
+        else {
+            f7.dialog.alert("Passwlord does not match the Confirm Password", "Authentication App")
+            //f7.dialog.alert(JSON.stringify(formData), "Authentication App")
+        }
+    }
+    return (<Page name="signup">
         <Navbar>
             <NavLeft backLink="Back"></NavLeft>
             <NavTitle>User Authentication</NavTitle>
@@ -114,5 +120,5 @@ export default () => (
                 </Row>
             </Block>
         </List>
-    </Page >
-)
+    </Page >)
+}
